@@ -1,0 +1,47 @@
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+}
+
+.modal-container button {
+    position: fixed;
+    right: 5%;
+    font-size: 36px;
+    z-index: 9;
+    background-color: transparent;
+    color: red;
+    opacity: 0.5;
+    box-shadow: none;
+}
+
+.modal-container button:hover {
+    background-color: transparent;
+    color: red;
+    opacity: 1;
+}
+
+.modal-main {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 1rem;
+    background-color: #24db7a;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    right: 5%;
+    bottom: 5%;
+    border-radius: 24px 0 0 24px;
+    padding: 24px;
+}
+
+.modal-main p {
+    font-size: 32px;
+}

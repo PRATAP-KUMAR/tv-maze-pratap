@@ -43,6 +43,7 @@ button:hover {
     justify-content: space-between;
     padding: 20px;
     background-color: #1a20c3;
+    width: 200px;
 }
 
 .card p {

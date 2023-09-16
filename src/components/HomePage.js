@@ -1,35 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import '../style.css';
+import ShowDetails from "./modals/ShowDetails";
 
 const website = 'http://api.tvmaze.com/shows';
 
 const HomePage = () => {
     const [shows, setShows] = useState([])
+    const [shown, setShown] = useState(false);
+    const [id, setId] = useState(0);
 
-    useEffect(() => {
-        const getShowsData = async () => {
-            const response = await fetch(website);
-            const json = await response.json();
-            console.log(json)
-            const timer = setTimeout(() => {
-                setShows(json)
-            }, 2000)
-            return () => clearTimeout(timer)
-        }
-        getShowsData();
-    }, [])
+    const getShowsData = async () => {
+        const response = await fetch(website);
+        const json = await response.json();
+        setShows(json)
+    }
+    getShowsData();
+
+    const onClose = () => {
+        setId(0);
+        setShown(false);
+    };
 
     const onLike = () => {
 
     }
 
-    const showDetails = () => {
-
+    const showDetails = (e) => {
+        setId(e.target.id);
+        setShown(true);
     }
 
     const onComments = () => {
 
     }
+
+    // const URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/'
 
     if (shows.length === 0) {
         return (
@@ -39,23 +44,31 @@ const HomePage = () => {
 
     return (
         <>
-            <div className="shows-container" >
-                {
-                    shows.map((obj, idx) => (
-                        <div className="card">
-                            <p key={`${obj.id} + ${idx} + firstkey`}>{obj.name}</p>
-                            <p key={`${obj.id} + ${idx} + secondkey`}>{obj.premiered.slice(0, 4)}</p>
-                            <img key={`${obj.id} + ${idx} + thirdkey`} src={obj.image.original} alt='' width="200" height="auto" />
-                            {/* <p key={`${obj.id} + ${idx} + fourthkey`}>{obj.summary.replace( /(<([^>]+)>)/ig, '')}</p> */}
-                            <div className="show-details"><button id={obj.id} onClick={showDetails}>ShowDetails</button></div>
-                            <div className="like-comment">
-                                <button id={obj.id} onClick={onLike}>Like</button>
-                                <button id={obj.id} onClick={onComments}>Comments</button>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div >
+            <>
+                <section>
+                    <div className="shows-container" >
+                        {
+                            shows.map((show, idx) => (
+                                <div className="card" key={show.externals.imdb}>
+                                    <p>{show.name}</p>
+                                    <p>{show.premiered.slice(0, 4)}</p>
+                                    <img src={show.image.original} alt='' width="200" height="auto" />
+                                    <div className="show-details"><button type="button" id={show.externals.imdb} onClick={showDetails}>ShowDetails</button></div>
+                                    <div className="like-comment">
+                                        <button id={show.id} onClick={onLike}>Like</button>
+                                        <button id={show.id} onClick={onComments}>Comments</button>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div >
+                </section>
+                <ShowDetails
+                    id={id}
+                    shown={shown}
+                    onClose={onClose}
+                />
+            </>
         </>
     )
 }
