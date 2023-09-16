@@ -23,8 +23,12 @@ const HomePage = () => {
 
     }
 
+    const showDetails = () => {
+
+    }
+
     const onComments = () => {
-        
+
     }
 
     if (shows.length === 0) {
@@ -40,11 +44,13 @@ const HomePage = () => {
                     shows.map((obj, idx) => (
                         <div className="card">
                             <p key={`${obj.id} + ${idx} + firstkey`}>{obj.name}</p>
-                            <p key={`${obj.id} + ${idx} + secondkey`}>{obj.premiered.slice(0,4)}</p>
+                            <p key={`${obj.id} + ${idx} + secondkey`}>{obj.premiered.slice(0, 4)}</p>
                             <img key={`${obj.id} + ${idx} + thirdkey`} src={obj.image.original} alt='' width="200" height="auto" />
+                            {/* <p key={`${obj.id} + ${idx} + fourthkey`}>{obj.summary.replace( /(<([^>]+)>)/ig, '')}</p> */}
+                            <div className="show-details"><button id={obj.id} onClick={showDetails}>ShowDetails</button></div>
                             <div className="like-comment">
-                                <button onClick={onLike}>Like</button>
-                                <button onClick={onComments}>Comments</button>
+                                <button id={obj.id} onClick={onLike}>Like</button>
+                                <button id={obj.id} onClick={onComments}>Comments</button>
                             </div>
                         </div>
                     ))

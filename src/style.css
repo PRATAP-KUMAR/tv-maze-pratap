@@ -39,14 +39,22 @@ button:hover {
 .card {
     display: flex;
     flex-direction: column;
-    border: 2px solid rgb(255, 242, 0);
+    border: 2px solid white;
     justify-content: space-between;
     padding: 20px;
+    background-color: #1a20c3;
 }
 
 .card p {
     display: flex;
     justify-content: center;
+}
+
+.show-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
 }
 
 .like-comment {
