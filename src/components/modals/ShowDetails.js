@@ -5,7 +5,7 @@ const ShowDetails = (props) => {
     const obj = props;
     const { display, onClose, id } = obj;
 
-    const [imdbData, setImdbData] = useState({})
+    const [imdbData, setImdbData] = useState(null)
 
     useEffect(() => {
         const URL = `https://api.tvmaze.com/lookup/shows?imdb=${id}`
@@ -13,12 +13,17 @@ const ShowDetails = (props) => {
             const response = await fetch(URL);
             const json = await response.json();
             setImdbData(json)
-            console.log(json)
         }
         getShowData();
     }, [id])
 
     if (!display) return;
+
+    if (imdbData === null) {
+        return (
+            <h1>Fetching Showdetails...</h1>
+        )
+    }
 
     return (
         <div className='modal-container'>
