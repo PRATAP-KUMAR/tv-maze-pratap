@@ -9,6 +9,10 @@ p {
     all: unset;
 }
 
+li {
+    all: unset;
+}
+
 button {
     all: unset;
     display: inline-block;

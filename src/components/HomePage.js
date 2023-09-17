@@ -1,40 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ShowDetails from './modals/ShowDetails';
 import '../style.css';
-import ShowDetails from "./modals/ShowDetails";
 
 const website = 'http://api.tvmaze.com/shows';
 
 const HomePage = () => {
-    const [shows, setShows] = useState([])
-    const [shown, setShown] = useState(false);
-    const [id, setId] = useState(0);
+    const [shows, setShows] = useState([]);
+    const [display, setDisplay] = useState(false);
+    const [imdbId, setImdbId] = useState(0);
 
-    const getShowsData = async () => {
-        const response = await fetch(website);
-        const json = await response.json();
-        setShows(json)
+    const handleClick = (e) => {
+        setDisplay(true);
+        setImdbId(e.target.id)
     }
-    getShowsData();
 
     const onClose = () => {
-        setId(0);
-        setShown(false);
-    };
-
-    const onLike = () => {
-
+        setDisplay(false);
     }
 
-    const showDetails = (e) => {
-        setId(e.target.id);
-        setShown(true);
-    }
-
-    const onComments = () => {
-
-    }
-
-    // const URL = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/'
+    useEffect(() => {
+        const getShowsData = async () => {
+            const response = await fetch(website);
+            const json = await response.json();
+            setShows(json)
+            console.log(json)
+        }
+        getShowsData();
+    }, [])
 
     if (shows.length === 0) {
         return (
@@ -44,31 +36,40 @@ const HomePage = () => {
 
     return (
         <>
-            <>
-                <section>
-                    <div className="shows-container" >
-                        {
-                            shows.map((show, idx) => (
-                                <div className="card" key={show.externals.imdb}>
-                                    <p>{show.name}</p>
-                                    <p>{show.premiered.slice(0, 4)}</p>
-                                    <img src={show.image.original} alt='' width="200" height="auto" />
-                                    <div className="show-details"><button type="button" id={show.externals.imdb} onClick={showDetails}>ShowDetails</button></div>
-                                    <div className="like-comment">
-                                        <button id={show.id} onClick={onLike}>Like</button>
-                                        <button id={show.id} onClick={onComments}>Comments</button>
-                                    </div>
+            <section>
+                <div className="shows-container" >
+                    {
+                        shows.map((show) => (
+                            <div className="card" key={show.externals.imdb}>
+                                <p>{show.name}</p>
+                                <p>{show.premiered.slice(0, 4)}</p>
+                                <img src={show.image.original} alt='' width="200" height="auto" />
+                                <div className="show-details">
+                                    <button
+                                        type="button"
+                                        id={show.externals.imdb}
+                                        onClick={handleClick}
+                                    >
+                                        ShowDetails
+                                    </button>
                                 </div>
-                            ))
-                        }
-                    </div >
-                </section>
+                                <div className="like-comment">
+                                    <button id={show.id}>Like</button>
+                                    <button id={show.id}>Comments</button>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div >
+            </section>
+            {display ?
                 <ShowDetails
-                    id={id}
-                    shown={shown}
+                    display={display}
                     onClose={onClose}
+                    id={imdbId}
                 />
-            </>
+                :
+                null}
         </>
     )
 }
