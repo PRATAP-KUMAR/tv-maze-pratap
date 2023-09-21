@@ -5,7 +5,7 @@ import '../style.css';
 const website = 'http://api.tvmaze.com/shows';
 
 const HomePage = () => {
-    const [shows, setShows] = useState([]);
+    const [shows, setShows] = useState(null);
     const [display, setDisplay] = useState(false);
     const [imdbId, setImdbId] = useState(0);
 
@@ -21,18 +21,20 @@ const HomePage = () => {
     useEffect(() => {
         const getShowsData = async () => {
             const response = await fetch(website);
-            const json = await response.json();
+            const MyPromise = new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(response)
+                }, 5000)
+            });
+            const res = await MyPromise;
+            const json = await res.json();
             setShows(json)
-            console.log(json)
         }
         getShowsData();
     }, [])
 
-    if (shows.length === 0) {
-        return (
-            <h1>Fetching API Data...</h1>
-        )
-    }
+    if (!shows)
+        return (<h1>Fetching API Data...</h1>)
 
     return (
         <>
@@ -62,14 +64,13 @@ const HomePage = () => {
                     }
                 </div >
             </section>
-            {display ?
+            {display &&
                 <ShowDetails
                     display={display}
                     onClose={onClose}
                     id={imdbId}
                 />
-                :
-                null}
+            }
         </>
     )
 }
