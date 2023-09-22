@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import './style.css';
-
 
 const ShowDetails = (props) => {
     const obj = props;
