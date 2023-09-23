@@ -5,22 +5,27 @@ import Modal from 'react-bootstrap/Modal';
 const htmlRegexG = /(<([^>]+)>)/ig;
 
 function MyModal(props) {
-
+    const obj = props;
+    const { visible, imdbid } = obj;
     const [imdb, setImdb] = useState(null);
 
-    const url = `https://api.tvmaze.com/lookup/shows?imdb=${props.imdbid}`
+    const url = `https://api.tvmaze.com/lookup/shows?imdb=${imdbid}`
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(url);
-            const data = await response.json();
-            setImdb(data);
+            try {
+                const response = await fetch(url, { mode: 'cors' });
+                const data = await response.json();
+                setImdb(data);
+            } catch (error) {
+                console.log('error from modal' + error)
+            }
         }
         fetchData();
     })
 
     return (
         <Modal
-            {...props}
+            show={visible}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -33,7 +38,7 @@ function MyModal(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {`Genres - ${JSON.stringify(imdb?.genres)}`}
+                <p>{`Genres - ${JSON.stringify(imdb?.genres)}`}</p>
                 <p>
                     {imdb?.summary.replace(htmlRegexG, '')}
                 </p>
