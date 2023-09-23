@@ -84,7 +84,7 @@ const HomePage = () => {
                 <div className="d-flex flex-wrap align-items-center justify-content-center gap-2 bg-light">
                     {
                         shows?.slice(0, N).map((show) => (
-                            <div key={show.id} className="border border-5 mt-3" style={{ "width": "18rem", "height": "30rem" }}>
+                            <div key={show.id} className="mt-3" style={{ "width": "18rem", "height": "36rem" }}>
                                 <Card show={show} />
                             </div>
                         ))

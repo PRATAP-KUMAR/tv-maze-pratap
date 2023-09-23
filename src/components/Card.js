@@ -10,15 +10,19 @@ export default function Card(props) {
 
     return (
         <>
-            <div className="card border-info d-flex align-items-center justify-content-between" style={{ "height": "100%" }}>
+            <div className="card shadow d-flex align-items-center justify-content-between" style={{ "height": "100%" }}>
                 <img className="card-img-top border rounded mask flex-center" src={show.image.original} alt=""></img>
-                <h5 className="card-title">{show.name}</h5>
+                <div className='d-flex justify-content-between'>
+                    <h5 className="card-title text-primary">{show.name}</h5>
+                    <h5 className="card-title text-info">{show.premiered.slice(0, 4)}</h5>
+                </div>
                 <Button variant="info" onClick={() => setModalShow(true)}>
                     See Details
                 </Button>
                 <MyModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
+                    imdbid={show.externals.imdb}
                 />
             </div>
         </>
