@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Spinner from 'react-bootstrap/Spinner';
-import Card from "./Card";
+import ShowCard from "./ShowCard";
 import useIntersect from './hooks/useIntersect';
 
 const website = 'http://api.tvmaze.com/shows';
@@ -41,11 +41,11 @@ const HomePage = () => {
                     </Spinner>
                 </div>
             }
-            <div className="d-flex flex-wrap align-items-center justify-content-center gap-2 bg-light">
+            <div className="d-flex flex-wrap justify-content-center align-items-end gap-2 bg-light">
                 {
                     shows?.map((show) => (
-                        <div key={show.id} className="mt-3" style={{ "width": "18rem", "height": "36rem" }}>
-                            {show.externals.imdb && <Card show={show} />}
+                        <div key={show.id} className="mt-3" style={{ "width": "18rem" }}>
+                            {show.externals.imdb && <ShowCard show={show} />}
                         </div>
                     ))
                 }
