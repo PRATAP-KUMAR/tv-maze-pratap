@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Modal } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 
 const htmlRegexG = /(<([^>]+)>)/ig;
 
 export default function ShowCard(props) {
     const obj = props
-    const { show } = obj;
+    const { show, cardIndex } = obj;
 
     const [visible, setVisible] = useState(false);
     const [fetchedObj, setFetchedObj] = useState(null);
@@ -23,21 +23,30 @@ export default function ShowCard(props) {
 
     return (
         <>
-            <Card style={{ width: '18rem' }}>
+            <Card className="border-2 border-info rounded" style={{ width: '18rem' }}>
                 <Card.Img variant="top" src="" data-src={show.image.original} />
                 <Card.Body>
-                    <Card.Title>{show.name} - {show.premiered.slice(0, 4)}</Card.Title>
+                    <Card.Title className='fw-bold'>{show.name} - {show.premiered.slice(0, 4)}</Card.Title>
                     <Card.Text>
                         {show.summary.replace(htmlRegexG, '').slice(0, 100)} ...
                     </Card.Text>
-                    <Button className="fw-bold" variant="outline-primary" id={show.externals.imdb} onClick={generateModal}>
-                        See 'Show Details'
-                    </Button>
+                    <div className='d-flex justify-content-around align-items-center'>
+                        <Button className="fw-bold" variant="outline-primary" id={show.externals.imdb} onClick={generateModal}>
+                            See 'Show Details'
+                        </Button>
+                        <span>Card - {cardIndex}</span>
+                    </div>
                 </Card.Body>
             </Card>
             {
                 fetchedObj &&
-                <Modal show={visible} onHide={handleClose}>
+                <Modal
+                    show={visible}
+                    onHide={handleClose}
+                    size='lg'
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
                             {fetchedObj.name}
@@ -50,7 +59,7 @@ export default function ShowCard(props) {
                         <p>
                             {fetchedObj.summary.replace(htmlRegexG, '')}
                         </p>
-                        <img className="card-img-top border rounded" src={fetchedObj.image.original} alt=""></img>
+                        <img className="card-img-top border rounded" src={fetchedObj.image.original} alt={fetchedObj.name}></img>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={handleClose}>Close</Button>

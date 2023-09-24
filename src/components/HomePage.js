@@ -41,11 +41,17 @@ const HomePage = () => {
                     </Spinner>
                 </div>
             }
+            <p className="d-flex fs-5 text-center justify-content-center">
+                TVmaze is a community of TV lovers and dedicated contributors that
+                discuss and help maintain tv information on the web.
+
+                Below are the show details from TVmaze api
+            </p>
             <div className="d-flex flex-wrap justify-content-center align-items-end gap-2 bg-light">
                 {
-                    shows?.map((show) => (
+                    shows?.map((show, index) => (
                         <div key={show.id} className="mt-3" style={{ "width": "18rem" }}>
-                            {show.externals.imdb && <ShowCard show={show} />}
+                            {show.externals.imdb && <ShowCard show={show} cardIndex={index + 1} />}
                         </div>
                     ))
                 }

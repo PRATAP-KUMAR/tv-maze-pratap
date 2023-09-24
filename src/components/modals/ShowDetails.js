@@ -10,15 +10,8 @@ const ShowDetails = (props) => {
         const URL = `https://api.tvmaze.com/lookup/shows?imdb=${id}`
         const getShowData = async () => {
             const response = await fetch(URL);
-            const MyPromise = new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(response)
-                }, 0)
-            });
-            const res = await MyPromise;
-            const json = await res.json();
-            console.log(json);
-            setImdbData(json)
+            const data = await response.json();
+            setImdbData(data)
         }
         getShowData();
     }, [id])
